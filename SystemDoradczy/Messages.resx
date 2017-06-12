@@ -187,7 +187,7 @@
     <value>Do you like crime shows ?</value>
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
-    <value>What should you watch on Netlix ?</value>
+    <value>What romantic movie should you watch?</value>
   </data>
   <data name="ZombiesQuestion" xml:space="preserve">
     <value>Do you like zombies ?</value>
@@ -210,13 +210,13 @@
   <data name="CriminalsQuestion" xml:space="preserve">
     <value>Do you root for the criminals ?</value>
   </data>
-   <data name="FridayAnswer" xml:space="preserve">
+  <data name="FridayAnswer" xml:space="preserve">
     <value>Title: Friday Night Lights</value>
   </data>
   <data name="ParksAnswer" xml:space="preserve">
     <value>Title: Parks and Recreation</value>
   </data>
-   <data name="S30RockAnswer" xml:space="preserve">
+  <data name="S30RockAnswer" xml:space="preserve">
     <value>Title: 30 Rock</value>
   </data>
   <data name="MethQuestion" xml:space="preserve">
@@ -228,19 +228,19 @@
   <data name="ScandalAnswer" xml:space="preserve">
     <value>Title: Scandal</value>
   </data>
-   <data name="ParenthoodAnswer" xml:space="preserve">
+  <data name="ParenthoodAnswer" xml:space="preserve">
     <value>Title: Parenthood</value>
   </data>
-   <data name="AnatomyAnswer" xml:space="preserve">
+  <data name="AnatomyAnswer" xml:space="preserve">
     <value>Title: Grey's Anatomy</value>
   </data>
-   <data name="OptimisticOrCynicalQuestion" xml:space="preserve">
+  <data name="OptimisticOrCynicalQuestion" xml:space="preserve">
     <value>Optimistic or cynical ?</value>
   </data>
-   <data name="DeadAnswer" xml:space="preserve">
+  <data name="DeadAnswer" xml:space="preserve">
     <value>Title: The Walking Dead</value>
   </data>
-    <data name="VampiresQuestion" xml:space="preserve">
+  <data name="VampiresQuestion" xml:space="preserve">
     <value>Vampires ?</value>
   </data>
   <data name="FreaksAnswer" xml:space="preserve">
@@ -252,7 +252,7 @@
   <data name="DexterAnswer" xml:space="preserve">
     <value>Title: Dexter</value>
   </data>
-   <data name="BarOrCafeQuestion" xml:space="preserve">
+  <data name="BarOrCafeQuestion" xml:space="preserve">
     <value>Do you want NYC friends to hang out at a bar or cafe ?</value>
   </data>
   <data name="ForOrPsyQuestion" xml:space="preserve">
@@ -264,22 +264,22 @@
   <data name="VampireAnswer" xml:space="preserve">
     <value>Title: The Vampire Diaries</value>
   </data>
-<data name="CSIAnswer" xml:space="preserve">
+  <data name="CSIAnswer" xml:space="preserve">
     <value>Title: CSI: Miami</value>
   </data>
   <data name="WestAnswer" xml:space="preserve">
     <value>Title: The West Wing</value>
   </data>
-   <data name="MindsAnswer" xml:space="preserve">
+  <data name="MindsAnswer" xml:space="preserve">
     <value>Title: Criminal Minds</value>
   </data>
-    <data name="MotherAnswer" xml:space="preserve">
+  <data name="MotherAnswer" xml:space="preserve">
     <value>Title: How i met your Mother ( ͡° ͜ʖ ͡°)</value>
   </data>
   <data name="FriendsAnswer" xml:space="preserve">
     <value>Title: Friends</value>
   </data>
-   <data name="HouseAnswer" xml:space="preserve">
+  <data name="HouseAnswer" xml:space="preserve">
     <value>Title: House of Cards</value>
   </data>
   <data name="IDKAnswer" xml:space="preserve">

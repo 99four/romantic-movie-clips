@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Mommosoft.ExpertSystem;
 using System.Windows;
 using System.Windows.Controls;
-using Mommosoft.ExpertSystem;
 
 namespace SystemDoradczy
 {
@@ -11,6 +10,7 @@ namespace SystemDoradczy
     public partial class MainWindow : Window
     {
         private readonly Mommosoft.ExpertSystem.Environment _theEnv = new Mommosoft.ExpertSystem.Environment();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,7 +27,7 @@ namespace SystemDoradczy
             PrevBtn.Visibility = Visibility.Hidden;
             AnswersPanel.Children.Clear();
             _theEnv.Run();
-            
+
             var evalStr = "(find-all-facts ((?f state-list)) TRUE)";
             using (var allFacts = (FactAddressValue)((MultifieldValue)_theEnv.Eval(evalStr))[0])
             {
@@ -45,17 +45,18 @@ namespace SystemDoradczy
                         NextBtn.Content = "Dalej";
                         NextBtn.Visibility = Visibility.Visible;
                         break;
+
                     case "final":
                         NextBtn.Content = "Reset";
                         NextBtn.Visibility = Visibility.Visible;
                         break;
+
                     default:
                         NextBtn.Content = "Dalej";
                         NextBtn.Visibility = Visibility.Visible;
                         PrevBtn.Content = "Powrót";
                         PrevBtn.Visibility = Visibility.Visible;
                         break;
-
                 }
 
                 using (var validAnswers = (MultifieldValue)evalFact.GetFactSlot("valid-answers"))
@@ -68,22 +69,36 @@ namespace SystemDoradczy
                     }
                 }
 
-                QuestionLbl.Content = Messages.ResourceManager.GetString((SymbolValue)evalFact.GetFactSlot("display"));
-            }
+                var symbol = (SymbolValue)evalFact.GetFactSlot("display");
 
-            
+                QuestionLbl.Content = GetResourceOrStringValue(symbol);
+            }
+        }
+
+        private string GetResourceOrStringValue(string str)
+        {
+            try
+            {
+                string value = Messages.ResourceManager.GetString(str);
+                if (string.IsNullOrWhiteSpace(value))
+                    return str;
+                else
+                    return value;
+            }
+            catch
+            {
+                return str;
+            }
         }
 
         private string GetAnswer()
         {
-
             foreach (var child in AnswersPanel.Children)
             {
                 var radio = child as RadioButton;
                 if (radio == null) continue;
                 if (radio.IsChecked.HasValue && radio.IsChecked.Value)
                     return radio.Content.ToString();
-
             }
             return null;
         }
@@ -91,9 +106,9 @@ namespace SystemDoradczy
         private void NextBtn_OnClick(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            if(button ==null ) return;
+            if (button == null) return;
             const string evalStr = "(find-all-facts ((?f state-list)) TRUE)";
-            using (var f = (FactAddressValue) ((MultifieldValue) _theEnv.Eval(evalStr))[0])
+            using (var f = (FactAddressValue)((MultifieldValue)_theEnv.Eval(evalStr))[0])
             {
                 string currentId = f.GetFactSlot("current").ToString();
                 switch (button.Content.ToString())
@@ -110,19 +125,18 @@ namespace SystemDoradczy
                         }
                         NextUiState();
                         break;
+
                     case "Reset":
                         _theEnv.Reset();
                         NextUiState();
                         break;
+
                     case "Powrót":
                         _theEnv.AssertString("(prev " + currentId + ")");
                         NextUiState();
                         break;
                 }
-
             }
-
         }
-
     }
 }

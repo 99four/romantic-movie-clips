@@ -46,25 +46,25 @@
 ;;;* QUERY RULES *
 ;;;***************
 
-(defrule determine-type ""
+(defrule determine-with-who ""
 	 (start)
     =>	
-    (assert (UI-state (display DramaOrComedy)
-                     (relation-asserted type)
-                     (response Both )
-                     (valid-answers Drama Comedy Both))))
+    (assert (UI-state (display "Who are you watching it with?")
+                     (relation-asserted with-who)
+                     (response "My main squeeze" )
+                     (valid-answers "My main squeeze" "My girlfriends" "My family"))))
 
-(defrule determine-scifi ""
-		(type Drama)
+(defrule determine-care-if-he-enjoys ""
+		(with-who My main squeeze)
     =>
 
-    (assert (UI-state (display ScifiShowQuestion)
-                     (relation-asserted scifi)
+    (assert (UI-state (display "Do you care if he enjoys it?")
+                     (relation-asserted answer-care-if-he-enjoys)
                      (response No )
                      (valid-answers Yes No)))) 
 
 (defrule determine-morals ""
-		(type Comedy)
+		(with-who Comedy)
     =>
 
     (assert (UI-state (display QuestionableMoralsQuestion)
@@ -74,7 +74,7 @@
 
 
 (defrule determine-place ""
-		(type Both)
+		(with-who Both)
     =>
 
     (assert (UI-state (display TownOrPrisonQuestion)
@@ -82,23 +82,14 @@
                      (response Prison )
                      (valid-answers Small-Town Prison)))) 
 
-(defrule determine-politics ""
-		(scifi No)
+(defrule determine-action-packed-or-thought-provoiking ""
+		(answer-care-if-he-enjoys Yes)
     =>
 
-    (assert (UI-state (display PoliticsQuestion)
-                     (relation-asserted politics)
-                     (response No )
-                     (valid-answers Yes No)))) 	
-
-(defrule determine-gore ""
-		(scifi Yes)
-    =>
-
-    (assert (UI-state (display GoreQuestion)
-                     (relation-asserted gore)
-                     (response No )
-                     (valid-answers Yes No)))) 	
+    (assert (UI-state (display "Action packed or thought provoiking")
+                     (relation-asserted answer-action-packed-or-thought-provoiking)
+                     (response "I love explosions!" )
+                     (valid-answers "I love explosions!" "Brains & beauty" "Let's stick to the com in romcom")))) 	
 					 
 (defrule determine-strongfemale ""
 		(morals No)
@@ -136,17 +127,17 @@
                      (response Yes )
                      (valid-answers Yes No)))) 
 					 
-(defrule determine-british ""
-		(gore No)
+(defrule determine-military-fan ""
+		(answer-action-packed-or-thought-provoiking I love explosions!)
     =>
 
-    (assert (UI-state (display BritishCharQuestion)
-                     (relation-asserted british)
-                     (response Yes )
-                     (valid-answers Yes No)))) 
+    (assert (UI-state (display "Military fan?")
+                     (relation-asserted answer-military-fan)
+                     (response "About face" )
+                     (valid-answers "About face" No)))) 
 
 (defrule determine-zombies ""
-		(gore Yes)
+		(answer-action-packed-or-thought-provoiking Yes)
     =>
 
     (assert (UI-state (display ZombiesQuestion)
@@ -286,10 +277,27 @@
                      (response Forensics )
                      (valid-answers Forensics Psychology)))) 
 
+
+(defrule determine-male-or-female-lead ""
+	(answer-military-fan No)
+     =>
+
+    (assert (UI-state (display "Male or female lead?")
+                     (relation-asserted answer-male-or-female-lead)
+                     (response "Male" )
+                     (valid-answers "Girls have muscle, too!" "Male")))) 
 					 
 ;;; ***************************
 ;;; *  FINAL  *  CONCLUSIONS  *
 ;;; *************************** 
+
+(defrule the-notebook ""
+		(answer-care-if-he-enjoys No)
+    =>
+
+    (assert (UI-state (display "The Netebook")
+                     (state final)
+                     )))
 
 (defrule glimore ""
 	(place Small-Town)
@@ -305,19 +313,28 @@
                       (state final)
                      )))						 
 
-(defrule DrWho ""
-	(british Yes)
+(defrule TopGun ""
+	(answer-military-fan About face)
      =>
-	(assert (UI-state (display DrWhoAnswer)
+	(assert (UI-state (display "Top Gun")
+                      (state final)
+                     )))				
+					 
+(defrule MrAndMrsSmith ""
+	(answer-male-or-female-lead Girls have muscle, too!)
+     =>
+	(assert (UI-state (display "Mr And Mrs Smith")
+                      (state final)
+                     )))		
+					 
+
+(defrule BourneIdentity ""
+	(answer-male-or-female-lead Male)
+     =>
+	(assert (UI-state (display "Bourne Identity")
                       (state final)
                      )))	
 
-(defrule Lost ""
-	(british No)
-     =>
-	(assert (UI-state (display LostAnswer)
-                      (state final)
-                     )))						 
 						 
 (defrule S24 ""
 	(action Yes)
@@ -498,6 +515,7 @@
 ;;;*************************
 ;;;* GUI INTERACTION RULES *
 ;;;*************************
+
 
 (defrule ask-question
 
