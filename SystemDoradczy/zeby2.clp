@@ -90,6 +90,24 @@
                     (response "I wish it was Christmas everyday" )
                     (valid-answers "I wish it was Christmas everyday" "Not really"))))
 
+  (defrule determine-kids-or-adults ""
+		(answer-holidays-make-him-swoon Not really)
+    =>
+
+    (assert (UI-state (display "Little kids or young adults?")
+                    (relation-asserted answer-kids-or-adults)
+                    (response "Somethings for the kiddies please" )
+                    (valid-answers "Somethings for the kiddies please" "We have teens in the house"))))
+
+  (defrule determine-princess-movie ""
+		(answer-kids-or-adults Somethings for the kiddies please)
+    =>
+
+    (assert (UI-state (display "How about a princess movie?")
+                    (relation-asserted answer-princess-movie)
+                    (response "My son will barf" )
+                    (valid-answers "My son will barf" "The girls would love that" "Something gender neutral"))))
+  
   (defrule determine-like-black-white-films ""
 		(answer-holidays-make-him-swoon I wish it was Christmas everyday)
     =>
@@ -469,6 +487,30 @@
 ;;; ***************************
 ;;; *  FINAL  *  CONCLUSIONS  *
 ;;; ***************************
+
+(defrule moonrise-kingdom ""
+	(answer-princess-movie My son will barf)
+	=>
+	
+	(assert (UI-state (display "Moonrise Kingdom")
+					  (state final)
+					  )))
+
+(defrule enchanted ""
+	(answer-princess-movie The girls would love that)
+	=>
+	
+	(assert (UI-state (display "Enchanted")
+					  (state final)
+					  )))
+
+(defrule princess-bride ""
+	(answer-princess-movie Something gender neutral)
+	=>
+	
+	(assert (UI-state (display "Princess Bride")
+					  (state final)
+					  )))            
 
 (defrule its-a-wonderful-life ""
 	(answer-like-black-white-films Always love the classics)
