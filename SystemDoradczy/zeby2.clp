@@ -81,6 +81,33 @@
                     (response "What about Burton" )
                     (valid-answers "What about Burton" Pixar Disney))))
 
+  (defrule determine-holidays-make-him-swoon ""
+		(answer-he-likes-animation No)
+    =>
+
+    (assert (UI-state (display "Do the holidays make you swoon?")
+                    (relation-asserted answer-holidays-make-him-swoon)
+                    (response "I wish it was Christmas everyday" )
+                    (valid-answers "I wish it was Christmas everyday" "Not really"))))
+
+  (defrule determine-like-black-white-films ""
+		(answer-holidays-make-him-swoon I wish it was Christmas everyday)
+    =>
+
+    (assert (UI-state (display "Do you like black & white films?")
+                    (relation-asserted answer-like-black-white-films)
+                    (response "Always love the classics" )
+                    (valid-answers "Always love the classics" "Maybe something more modern"))))
+
+  (defrule determine-how-many-love-triangles ""
+		(answer-like-black-white-films Maybe something more modern)
+    =>
+
+    (assert (UI-state (display "How many love triangles?")
+                    (relation-asserted answer-how-many-love-triangles)
+                    (response "I love complexity" )
+                    (valid-answers "I love complexity" "More than two and its hard to follow"))))
+
   (defrule determine-robots-or-humans ""
 		(answer-pixar-or-disney Pixar)
     =>
@@ -441,7 +468,31 @@
 					 
 ;;; ***************************
 ;;; *  FINAL  *  CONCLUSIONS  *
-;;; *************************** 
+;;; ***************************
+
+(defrule its-a-wonderful-life ""
+	(answer-like-black-white-films Always love the classics)
+	=>
+	
+	(assert (UI-state (display "Its a wonderful life")
+					  (state final)
+					  )))
+
+(defrule love-actually ""
+	(answer-how-many-love-triangles I love complexity)
+	=>
+	
+	(assert (UI-state (display "Love actually")
+					  (state final)
+					  )))
+
+(defrule the-holiday ""
+	(answer-how-many-love-triangles More than two and its hard to follow)
+	=>
+	
+	(assert (UI-state (display "The holiday")
+					  (state final)
+					  )))
 
 (defrule nightmare-before-christmas ""
 	(answer-pixar-or-disney What about Burton)
