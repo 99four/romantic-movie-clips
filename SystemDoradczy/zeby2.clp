@@ -61,7 +61,43 @@
     (assert (UI-state (display "Do you care if he enjoys it?")
                      (relation-asserted answer-care-if-he-enjoys)
                      (response No )
-                     (valid-answers Yes No)))) 
+                     (valid-answers Yes No))))
+
+(defrule determine-he-likes-animation ""
+		(with-who My family)
+    =>
+
+    (assert (UI-state (display "Do you like animation?")
+                    (relation-asserted answer-he-likes-animation)
+                    (response No )
+                    (valid-answers Yes No))))
+
+  (defrule determine-pixar-or-disney ""
+		(answer-he-likes-animation Yes)
+    =>
+
+    (assert (UI-state (display "Pixar or Disney?")
+                    (relation-asserted answer-pixar-or-disney)
+                    (response "What about Burton" )
+                    (valid-answers "What about Burton" Pixar Disney))))
+
+  (defrule determine-robots-or-humans ""
+		(answer-pixar-or-disney Pixar)
+    =>
+
+    (assert (UI-state (display "With robots or humans?")
+                    (relation-asserted answer-robots-or-humans)
+                    (response Robots )
+                    (valid-answers Robots Humans))))
+
+  (defrule determine-lover-or-fighter ""
+		(answer-pixar-or-disney Disney)
+    =>
+
+    (assert (UI-state (display "Are you a lover or fighter?")
+                    (relation-asserted answer-lover-or-fighter)
+                    (response Fighter )
+                    (valid-answers Fighter Lover))))
 
 (defrule determine-morals ""
 		(with-who Comedy)
@@ -406,6 +442,46 @@
 ;;; ***************************
 ;;; *  FINAL  *  CONCLUSIONS  *
 ;;; *************************** 
+
+(defrule nightmare-before-christmas ""
+	(answer-pixar-or-disney What about Burton)
+	=>
+	
+	(assert (UI-state (display "Nightmare Before Christmas")
+					  (state final)
+					  )))
+
+(defrule wall-e ""
+	(answer-robots-or-humans Robots)
+	=>
+	
+	(assert (UI-state (display "Wall E")
+					  (state final)
+					  )))
+
+(defrule up ""
+	(answer-robots-or-humans Humans)
+	=>
+	
+	(assert (UI-state (display "Up")
+					  (state final)
+					  )))
+
+(defrule tangled ""
+	(answer-lover-or-fighter Fighter)
+	=>
+	
+	(assert (UI-state (display "Tangled")
+					  (state final)
+					  )))
+
+(defrule beauty-and-the-beast ""
+	(answer-lover-or-fighter Lover)
+	=>
+	
+	(assert (UI-state (display "Beauty and the Beast")
+					  (state final)
+					  )))
 
 (defrule wedding-crashers ""
 	(answer-girl-in-love She is smitten)
