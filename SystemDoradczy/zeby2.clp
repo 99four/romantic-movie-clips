@@ -89,8 +89,68 @@
     (assert (UI-state (display "Action packed or thought provoiking")
                      (relation-asserted answer-action-packed-or-thought-provoiking)
                      (response "I love explosions!" )
-                     (valid-answers "I love explosions!" "Brains & beauty" "Let's stick to the com in romcom")))) 	
+                     (valid-answers "I love explosions!" "Brains and beauty" "Lets stick to the com in romcom")))) 	
 					 
+(defrule determine-judd-apatow-film ""
+		(answer-action-packed-or-thought-provoiking Lets stick to the com in romcom)
+    =>
+
+    (assert (UI-state (display "Judd apatow film?")
+                     (relation-asserted answer-judd-apatow-film)
+                     (response "Yes please" )
+                     (valid-answers "Yes please" "Pass")))) 	
+
+
+(defrule determine-guys-only ""
+		(answer-judd-apatow-film Pass)
+    =>
+
+    (assert (UI-state (display "Guys only?")
+                     (relation-asserted answer-guys-only)
+                     (response "Bromance is the best" )
+                     (valid-answers "Bromance is the best" "Girl power")))) 
+
+
+(defrule determine-girl-in-love ""
+		(answer-guys-only Girl power)
+    =>
+
+    (assert (UI-state (display "Is the girl in love?")
+                     (relation-asserted answer-girl-in-love)
+                     (response "She is smitten" )
+                     (valid-answers "She is smitten" "She may be a little unaware")))) 
+
+
+(defrule determine-like-jamaican-accents ""
+		(answer-guys-only Bromance is the best)
+    =>
+
+    (assert (UI-state (display "Do you like fake jamaican accents?")
+                     (relation-asserted answer-like-jamaican-accents)
+                     (response "Ya man" )
+                     (valid-answers "Ya man" No)))) 
+
+
+(defrule determine-thinking-of-marrige ""
+		(answer-judd-apatow-film Yes please)
+    =>
+
+    (assert (UI-state (display "Thinking of marrige?")
+                     (relation-asserted answer-thinking-of-marraige)
+                     (response "Yes" )
+                     (valid-answers "Yes" "Nah")))) 	
+
+
+(defrule determine-broken-or-knocked ""
+		(answer-thinking-of-marraige Nah)
+    =>
+
+    (assert (UI-state (display "Broken up or knocked up?")
+                     (relation-asserted answer-broken-or-knocked)
+                     (response "There is humor in sorrow" )
+                     (valid-answers "There is humor in sorrow" "I see where this is headed")))) 
+
+
 (defrule determine-strongfemale ""
 		(morals No)
     =>
@@ -136,14 +196,23 @@
                      (response "About face" )
                      (valid-answers "About face" No)))) 
 
-(defrule determine-zombies ""
-		(answer-action-packed-or-thought-provoiking Yes)
+(defrule determine-starring-an-it-girl ""
+		(answer-action-packed-or-thought-provoiking Brains and beauty)
     =>
 
-    (assert (UI-state (display ZombiesQuestion)
-                     (relation-asserted zombies)
+    (assert (UI-state (display "Starring an it girl")
+                     (relation-asserted answer-starring-an-it-girl)
                      (response Yes )
                      (valid-answers Yes No)))) 
+
+(defrule determine-foreign-film ""
+		(answer-starring-an-it-girl No)
+    =>
+
+    (assert (UI-state (display "Foreign film?")
+                     (relation-asserted answer-foreign-film)
+                     (response Oui )
+                     (valid-answers Oui No)))) 
 					 
 (defrule determine-romance ""
 		(action No)
@@ -267,6 +336,53 @@
                      (response No )
                      (valid-answers Yes No)))) 
 					 
+(defrule determine-tear-jerker ""
+		(answer-foreign-film No)
+    =>
+
+    (assert (UI-state (display "Tear Jerker")
+                     (relation-asserted answer-tear-jerker)
+                     (response "Prefer to laugh" )
+                     (valid-answers "I am not crying" "Prefer to laugh")))) 
+					 
+(defrule determine-like-beer ""
+		(answer-tear-jerker Prefer to laugh)
+    =>
+
+    (assert (UI-state (display "Do you like beer")
+                     (relation-asserted answer-like-beer)
+                     (response No )
+                     (valid-answers No "Yummy")))) 
+
+
+(defrule determine-like-adam-sandler ""
+		(answer-like-beer No)
+    =>
+
+    (assert (UI-state (display "Do you like Adam Sandler")
+                     (relation-asserted answer-like-adam-sandler)
+                     (response Pass )
+                     (valid-answers Pass "Of course")))) 
+
+(defrule determine-good-or-bad-girl ""
+		(answer-like-adam-sandler Pass)
+    =>
+
+    (assert (UI-state (display "Good or bad girl")
+                     (relation-asserted answer-good-or-bad-girl)
+                     (response "This one time" )
+                     (valid-answers "This one time" "Nice girls never get the guy")))) 
+
+
+(defrule determine-sandler ""
+		(answer-like-adam-sandler Of course)
+    =>
+
+    (assert (UI-state (display "90s sandler or 2000s sandler")
+                     (relation-asserted answer-sandler)
+                     (response "Classic Adam" )
+                     (valid-answers "Classic Adam" "New")))) 
+
 
 (defrule determine-forp ""
 		(romance No)
@@ -290,6 +406,125 @@
 ;;; ***************************
 ;;; *  FINAL  *  CONCLUSIONS  *
 ;;; *************************** 
+
+(defrule wedding-crashers ""
+	(answer-girl-in-love She is smitten)
+	=>
+	
+	(assert (UI-state (display "Wedding Crashers")
+					  (state final)
+					  )))
+
+(defrule there-is-something0about-marry ""
+	(answer-girl-in-love She may be a little unaware)
+	=>
+	
+	(assert (UI-state (display "There is something about Mary")
+					  (state final)
+					  )))
+
+(defrule love-you-man ""
+	(answer-like-jamaican-accents Ya man)
+	=>
+	
+	(assert (UI-state (display "I love you, man!")
+					  (state final)
+					  )))
+
+(defrule don-jon ""
+	(answer-like-jamaican-accents No)
+	=>
+	
+	(assert (UI-state (display "Don Jon")
+					  (state final)
+					  )))
+
+(defrule forgetting-sarah-marshall ""
+	(answer-broken-or-knocked There is humor in sorrow)
+	=>
+	
+	(assert (UI-state (display "Forgetting Sarah Marshall")
+					  (state final)
+					  )))
+
+
+(defrule knocked-up ""
+	(answer-broken-or-knocked I see where this is headed)
+	=>
+	
+	(assert (UI-state (display "Knocked up")
+					  (state final)
+					  )))
+
+
+(defrule this-is-40 ""
+	(answer-thinking-of-marraige Yes)
+	=>
+	
+	(assert (UI-state (display "This is 40")
+					  (state final)
+					  )))
+
+(defrule wedding-singer ""
+	(answer-sandler Classic Adam)
+	=>
+	
+	(assert (UI-state (display "Wedding Singer")
+					  (state final)
+					  )))
+
+
+(defrule just-go-with-it ""
+	(answer-sandler New)
+	=>
+	
+	(assert (UI-state (display "Just go with it")
+					  (state final)
+					  )))
+
+
+(defrule american-pie ""
+	(answer-good-or-bad-girl This one time)
+	=>
+	
+	(assert (UI-state (display "American Pie")
+					  (state final)
+					  )))
+
+
+(defrule girl-next-door ""
+	(answer-good-or-bad-girl Nice girls never get the guy)
+	=>
+	
+	(assert (UI-state (display "Girl next door")
+					  (state final)
+					  )))
+
+
+(defrule drinking-buddies ""
+	(answer-like-beer Yummy)
+	=>
+	
+	(assert (UI-state (display "Drinking Buddies")
+					  (state final)
+					  )))
+
+(defrule eteral-sunshine-of-the-spotless-mind ""
+	(answer-tear-jerker I am not crying)
+	=>
+	
+	(assert (UI-state (display "Eteral Sunsine of the spotless mind")
+					  (state final)
+					  )))
+
+(defrule amelie ""
+		(answer-foreign-film Oui)
+    =>
+
+    (assert (UI-state (display "Amelie")
+                     (state final)
+                     )))
+
 
 (defrule the-notebook ""
 		(answer-care-if-he-enjoys No)
@@ -420,10 +655,10 @@
                       (state final)
                      )))
 					 
-(defrule WalkingDead ""
-	(zombies Yes)
+(defrule SilverLiningsPlaybook ""
+	(answer-starring-an-it-girl Yes)
      =>
-	(assert (UI-state (display DeadAnswer)
+	(assert (UI-state (display "Silver Linings Playbook")
                       (state final)
                      )))
 					 
